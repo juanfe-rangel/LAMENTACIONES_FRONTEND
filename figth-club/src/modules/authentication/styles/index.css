@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  /* colores de la paleta */
+  --color-fuego: #FF4400;
+  --color-fuego-dark: #CC2200;
+  --color-fuego-light: #FF7700;
+  
+  --color-oro: #FFCC00;
+  --color-oro-dark: #FF8844;
+  --color-oro-light: #FFEE00;
+  
+  --color-acero: #1C1814;
+  --color-acero-claro: #2A2420;
+  
+  --color-ceniza: #F0DDC8;
+  --color-victoria: #44DD88;
+  --color-sangre: #FF4444;
+
+  /* Fuente para el estilo de juego */
+  --font-display: "Orbitron", sans-serif;
+}
+
+body {
+  background-color: var(--color-acero);
+  color: var(--color-ceniza);
+  margin: 0;
+}
