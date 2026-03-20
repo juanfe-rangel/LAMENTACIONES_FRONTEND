@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const authApi = axios.create({
-  baseURL: 'https://clubfigth-e9ffa5bjeeb4bvb7.brazilsouth-01.azurewebsites.net',
+  baseURL: import.meta.env.VITE_API_URL,
   headers: { 'Content-Type': 'application/json' },
 });
 
