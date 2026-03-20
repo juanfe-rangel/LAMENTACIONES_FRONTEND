@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Mail, Lock } from 'lucide-react';
 import { useRegister } from '../../hooks/useRegister';
