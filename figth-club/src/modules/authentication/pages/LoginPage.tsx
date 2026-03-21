@@ -46,6 +46,11 @@ export const LoginPage: React.FC = () => {
                 Regístrate ahora
               </Link>
             </p>
+            <p>
+              <Link to="/guest" className="text-[11px] text-white/30 uppercase tracking-[0.2em] font-bold hover:text-white/60 transition-all">
+              Entrar como invitado →
+              </Link>
+            </p>
           </footer>
         </div>
       </motion.div>

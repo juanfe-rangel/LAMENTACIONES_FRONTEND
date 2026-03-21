@@ -6,11 +6,12 @@ import { useRegister } from '../../hooks/useRegister';
 import { AvatarSelector } from './AvatarSelector';
 import { FormInput } from './FormInput';
 import { SuccessCard } from '../auth/SuccessCard';
+import { ErrorToast } from '../ui/ErrorToast';
 
 const PRESET_AVATARS = ['👊', '🥷', '🤼', '😈', '🦁', '🐉', '💀', '⚡'];
 
 export const RegisterForm = () => {
-    const { register, isLoading, isSuccess, error } = useRegister();
+    const { register, isLoading, isSuccess, profileRoute, error, setError } = useRegister();
     const navigate = useNavigate();
     const fileInputRef = useRef<HTMLInputElement>(null);
     
@@ -39,7 +40,7 @@ export const RegisterForm = () => {
     if (isSuccess) {
         return (
             <SuccessCard 
-                onConfirm={() => navigate('/profile')} 
+            onConfirm={() => navigate(profileRoute)}
             />
         );
     }
@@ -99,6 +100,9 @@ export const RegisterForm = () => {
                 />
             </div>
 
+
+            <ErrorToast message={error} onDismiss={() => setError(null)} />
+
             <div className="pt-4">
                 <button 
                     type="submit"
@@ -107,12 +111,6 @@ export const RegisterForm = () => {
                 >
                     {isLoading ? 'ENLISTANDO...' : 'UNIRSE AL COMBATE'}
                 </button>
-                
-                {error && (
-                    <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-500 text-[10px] text-center uppercase tracking-widest font-bold animate-pulse">
-                        ⚠️ {error}
-                    </div>
-                )}
             </div>
         </form>
     );

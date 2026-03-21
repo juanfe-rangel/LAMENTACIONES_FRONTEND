@@ -5,6 +5,7 @@ import type { RegisterRequest } from '../types/auth.types';
 export const useRegister = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [profileRoute, setProfileRoute] = useState('/login');
     const [error, setError] = useState<string | null>(null);
 
     const register = async (formData: RegisterRequest) => {
@@ -26,7 +27,7 @@ export const useRegister = () => {
                     email: data.email,
                     role: data.role
                 }));
-
+                setProfileRoute(`/${data.username}/perfil`);
                 setIsSuccess(true);
             }
         } catch (err: any) {
@@ -37,5 +38,5 @@ export const useRegister = () => {
         }
     };
 
-    return { register, isLoading, isSuccess, error };
+    return { register, isLoading, isSuccess, profileRoute, error, setError };
 };

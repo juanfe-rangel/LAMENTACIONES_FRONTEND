@@ -47,7 +47,9 @@ export const PlayerDashboard = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('user_data');
-        localStorage.removeItem('token'); 
+        localStorage.removeItem('fight_club_token');   
+        localStorage.removeItem('fight_club_refresh');
+        localStorage.removeItem('fight_club_userId');
         navigate('/login');
     };
 

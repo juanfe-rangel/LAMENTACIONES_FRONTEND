@@ -6,6 +6,7 @@ export const useLogin = () => {
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [profileRoute, setProfileRoute] = useState('/login');
     const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -37,6 +38,7 @@ export const useLogin = () => {
                     role: data.role
                 }));
 
+                setProfileRoute(`/${data.username}/perfil`);
                 setIsSuccess(true);
             } else {
                 setError("RESPUESTA DEL SERVIDOR INCOMPLETA");
@@ -53,6 +55,7 @@ export const useLogin = () => {
         email, setEmail, 
         password, setPassword, 
         isLoading, isSuccess, 
+        profileRoute,
         error, handleSubmit 
     };
 };
