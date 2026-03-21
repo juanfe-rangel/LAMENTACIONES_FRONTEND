@@ -2,11 +2,14 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 
 import "./modules/authentication/styles/index.css"; 
+import "./modules/Lobby/styles/index.css"
 
 
 import { LoginPage } from "./modules/authentication/pages/LoginPage";
 import { RegisterPage } from "./modules/authentication/pages/RegisterPage";
 import { PlayerDashboard } from "./modules/authentication/components/profile/PlayerDashboard";
+import { LobbyPage } from './modules/Lobby/pages/lobby.tsx';
+
 
 function App() {
   return (
@@ -19,6 +22,9 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/profile" element={<PlayerDashboard />} />
+
+
+          <Route path="/lobby" element={<LobbyPage />} />
 
           {/* 404 por si escribes mal la URL */}
           <Route path="*" element={<div className="text-white p-10">404 - Not Found</div>} />
