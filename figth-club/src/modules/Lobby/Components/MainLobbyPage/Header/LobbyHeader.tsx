@@ -4,13 +4,15 @@ import { FriendsButton } from './FriendButton';
 import { NotificationsButton } from './NotificationButton';
 import { ConfigurationButton } from './ConfigButton';
 
+type props = {
+    userName: string;
+}
 
-
-export const LobbyHeader: React.FC  = () =>{
+export const LobbyHeader: React.FC<props>  = ({userName}) =>{
     return(
-        <nav>
-            <header className="flex justify-between items-center w-full px-6 h-16 bg-stone-950/90 backdrop-blur-xl sticky top-0 z-50 border-b border-stone-800">
-                <ProfileButton />
+        <nav >
+            <header className="bg-[#16130f] flex justify-between items-center w-full px-6 h-16 fixed top-0 z-50">
+                <ProfileButton userName={userName} />
                 <span className="hidden lg:flex items-center gap-8">
                     <strong className="font-['Space_Grotesk'] uppercase tracking-widest text-sm font-bold text-orange-500 border-b-2 border-orange-600 pb-1">Lobby</strong>
                     </span>

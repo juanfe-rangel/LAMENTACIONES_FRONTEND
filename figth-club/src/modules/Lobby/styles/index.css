@@ -1,70 +1,94 @@
 @import "tailwindcss";
 
 @theme {
+  /* Fuego */
   --color-fuego: #FF4400;
   --color-fuego-dark: #CC2200;
   --color-fuego-light: #FF7700;
-  
+
+  /* Oro */
   --color-oro: #FFCC00;
   --color-oro-dark: #FF8844;
   --color-oro-light: #FFEE00;
-  
+
+  /* Acero y Ceniza */
   --color-acero: #1C1814;
   --color-acero-claro: #2A2420;
-  
   --color-ceniza: #F0DDC8;
+
+  /* Estado y victoria */
   --color-victoria: #44DD88;
   --color-sangre: #FF4444;
 
+  /* Fuentes */
   --font-display: "Orbitron", sans-serif;
+  --font-headline: "Space Grotesk", sans-serif;
+  --font-orbitron: "Orbitron", sans-serif;
+  --font-body: "Manrope", sans-serif;
+  --font-label: "Space Grotesk", sans-serif;
 
-
+  /* Surface / Fondo */
   --color-surface: #16130f;
   --color-surface-dim: #16130f;
   --color-surface-bright: #3d3834;
-
   --color-surface-container-lowest: #110e0a;
   --color-surface-container-low: #1f1b17;
   --color-surface-container: #231f1b;
   --color-surface-container-high: #2e2925;
   --color-surface-container-highest: #39342f;
+  --color-surface-variant: #39342f;
+  --color-surface-tint: #ffb5a1;
 
-  --color-on-surface: #eae1da;
-  --color-on-surface-variant: #e7bdb2;
-
+  /* Fondo / texto */
   --color-background: #16130f;
   --color-on-background: #eae1da;
+  --color-on-surface: #eae1da;
+  --color-on-surface-variant: #e7bdb2;
+  --color-inverse-surface: #eae1da;
+  --color-inverse-on-surface: #34302b;
 
+  /* Primario */
   --color-primary: #ffb5a1;
+  --color-primary-fixed: #ffdbd1;
+  --color-primary-fixed-dim: #ffb5a1;
   --color-primary-container: #ff5626;
   --color-on-primary: #601400;
+  --color-on-primary-fixed: #3b0900;
+  --color-on-primary-fixed-variant: #882000;
   --color-on-primary-container: #541000;
 
+  /* Secundario */
   --color-secondary: #ffecc0;
+  --color-secondary-fixed: #ffe08b;
+  --color-secondary-fixed-dim: #f1c100;
   --color-secondary-container: #fecb00;
   --color-on-secondary: #3d2f00;
+  --color-on-secondary-fixed: #241a00;
+  --color-on-secondary-fixed-variant: #584400;
   --color-on-secondary-container: #6e5700;
 
+  /* Terciario */
   --color-tertiary: #48e08b;
+  --color-tertiary-fixed-dim: #48e08b;
+  --color-tertiary-fixed: #69fea5;
   --color-tertiary-container: #00a65e;
   --color-on-tertiary: #00391c;
   --color-on-tertiary-container: #003118;
+  --color-on-tertiary-fixed-variant: #00522c;
+  --color-on-tertiary-fixed: #00210e;
 
+  /* Error / alerta */
   --color-error: #ffb4ab;
   --color-error-container: #93000a;
   --color-on-error: #690005;
   --color-on-error-container: #ffdad6;
 
+  /* Outline */
   --color-outline: #ad887e;
   --color-outline-variant: #5d4038;
 
-  --color-inverse-surface: #eae1da;
-  --color-inverse-on-surface: #34302b;
+  /* Inversos y extras */
   --color-inverse-primary: #b12d00;
-
-  --font-headline: "Orbitron", sans-serif;
-  --font-body: "Manrope", sans-serif;
-  --font-label: "Space Grotesk", sans-serif;
 }
 
 body {
@@ -78,10 +102,31 @@ body {
   vertical-align: middle;
 }
 
+.material-symbols-outlined.material-symbols-outlined--display {
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+}
 
 .kinetic-gradient {
   background: linear-gradient(45deg, #ffb5a1 0%, #ff5626 100%);
 }
 .anodized-surface {
   background: linear-gradient(180deg, rgba(57, 52, 47, 0.5) 0%, rgba(35, 31, 27, 0.8) 100%);
+}
+.lightning-divider {
+  clip-path: polygon(50% 0, 52% 10%, 48% 25%, 55% 35%, 45% 55%, 58% 70%, 42% 85%, 53% 100%, 47% 100%, 35% 85%, 52% 70%, 38% 55%, 48% 35%, 42% 25%, 45% 10%, 44% 0);
+}
+.kinetic-gradient-fuego {
+  background: linear-gradient(45deg, #ffb5a1 0%, #ff5626 100%);
+  transition: background 0.3s ease;
+}
+
+.kinetic-gradient-fuego:hover {
+  background: linear-gradient(45deg, #ffc3b0 0%, #ff6a3a 90%);
+}
+.kinetic-glass {
+  background: rgba(28, 24, 20, 0.8);
+  backdrop-filter: blur(20px);
+}
+.fuego-border {
+  border: 1px solid #ffb5a1;
 }
