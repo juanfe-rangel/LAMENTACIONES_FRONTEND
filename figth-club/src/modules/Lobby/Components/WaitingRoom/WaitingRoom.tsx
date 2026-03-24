@@ -1,10 +1,10 @@
 import React,{useEffect, useState} from 'react';
-import { WaitingRoomHeader } from '../Components/WaitingRoom/WaitingRoomHeader';
-import { PlayerContainer } from '../Components/WaitingRoom/PlayerContainer';
-import { BottonWaitingBar } from '../Components/WaitingRoom/BottomBar';
-import { PreFooterWaitingBar } from '../Components/WaitingRoom/PreFooter/PreFooterWaitingBar';
-import type { Room } from '../Types/RoomTypes';
-import type { Player } from '../Types/PlayerType';
+import { WaitingRoomHeader } from './WaitingRoomHeader';
+import { PlayerContainer } from './PlayerContainer';
+import { BottonWaitingBar } from './BottomBar';
+import { PreFooterWaitingBar } from './PreFooter/PreFooterWaitingBar';
+import type { Room } from '../../Types/RoomTypes';
+import type { Player } from '../../Types/PlayerType';
 
 type props={
     roomRequest : Room;
@@ -13,22 +13,24 @@ type props={
 
 export const WaitingRoom: React.FC<props> = ({roomRequest}) => {
     const[players,setPLayers] = useState<Player[]|null>(null)
-    
-    
-    useEffect(()=>{
-        if(!roomRequest) return;
-        setPLayers(roomRequest.players);
-    },[]);
+    const[roomR,setRoomR] = useState<Room>();
 
+   
+    useEffect(() => {
+        if (!roomRequest) return;
+        setRoomR(roomRequest);
+        setPLayers(roomRequest.players); 
+        
+    }, [roomRequest]);
 
-    const playerTest :Player = {
-         userId : "1", roomCode:"asd",PlayerType:"PLAYER"
+    const playerList = players?.filter(p => p.playerType === "PLAYER") ?? [];
 
-    }
+   
 
     return (
+        roomR && 
         <div className="bg-background text-on-background font-body selection:bg-primary selection:text-on-primary h-screen flex flex-col overflow-hidden">
-            <WaitingRoomHeader spectatorsNumber={255}/>
+            <WaitingRoomHeader spectatorsNumber={roomR.currentSpectators}/>
             <main className="flex-1 flex flex-col relative mt-16 min-h-0">
 
                 <div className="absolute inset-0 z-20 flex justify-center pointer-events-none hidden md:flex">
@@ -41,25 +43,22 @@ export const WaitingRoom: React.FC<props> = ({roomRequest}) => {
                             VS
                         </div> 
                     </div>
-                    <PlayerContainer key={-1} player={playerTest} />
-                    <PlayerContainer key={-2}  />
-
+       
 
                     {
-                        players
-                        ?.filter(p => p.PlayerType === "PLAYER")
-                        .map((_, i) => (
-                            <PlayerContainer key={i} />
+                        playerList.map((p, i) => (
+                        <PlayerContainer key={i} player={p} />
                         ))
                     }
+
                     {
-                        (players && players .length <= 1) && <PlayerContainer key={-1} /> 
+                        playerList.length === 1 && <PlayerContainer key={-1} />
                     }
 
     
                 </div>
             </main>
-            <PreFooterWaitingBar roomCode={"AT-9280"} />
+            <PreFooterWaitingBar roomCode={roomR.roomCode} />
             <BottonWaitingBar />
         </div>
     );

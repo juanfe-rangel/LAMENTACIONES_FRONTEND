@@ -9,7 +9,7 @@ import { LoginPage } from "./modules/authentication/pages/LoginPage";
 import { RegisterPage } from "./modules/authentication/pages/RegisterPage";
 import { PlayerDashboard } from "./modules/authentication/components/profile/PlayerDashboard";
 import { LobbyPage } from './modules/Lobby/pages/lobby.tsx';
-import { WaitingRoom } from "./modules/Lobby/pages/WaitingRoom.tsx";
+import { WaitingRoomPage } from "./modules/Lobby/pages/WaitingRoomPage.tsx";
 
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
 
 
           <Route path="/lobby" element={<LobbyPage />} />
-          <Route path="test" element ={<WaitingRoom />} />
+          <Route path="/waiting-room/:roomCode" element ={<WaitingRoomPage />} />
 
           {/* 404 por si escribes mal la URL */}
           <Route path="*" element={<div className="text-white p-10">404 - Not Found</div>} />

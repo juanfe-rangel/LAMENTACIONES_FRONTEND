@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import type { Player } from "../../Types/PlayerType";
+import { userDataLocalStorage } from "../../Types/localUserData";
 
 type PlayerCardProps = {
   key : number;
@@ -20,7 +21,8 @@ export const PlayerContainer: React.FC<PlayerCardProps> = ({player}) => {
   })
 
 
-  const name = playerGame ? "momento" : "EMPTY_SLOT";
+
+  const name = playerGame ? userDataLocalStorage?.username : "EMPTY_SLOT";
   let status =  playerGame ? "Ready" : "WAITING...";
   let avatar;
   let isEmpty = playerGame ? true : false;

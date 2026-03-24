@@ -9,6 +9,21 @@ export const LobbyPage : React.FC = () =>{
     const [userName,setUserName] = useState<string>("");
     const [userCharacters,setUserCharacters] = useState<UserCharacter[] | null>(null);
 
+
+    useEffect(() => {
+      const mockUser = {
+        userId: "123",
+        username: "testUser",
+        email: "test@example.com",
+        role: "admin"
+      };
+    
+      localStorage.setItem("user_data", JSON.stringify(mockUser));
+    }, []);
+
+
+
+
     useEffect(()=>{
         setUserName("Santiago")
         const userCharactersList: UserCharacter[] = [
