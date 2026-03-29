@@ -26,7 +26,8 @@ export const useJoinWaitingRoomg = ({roomCode,userId}:props)=>{
                     client.publish({
                         destination: "/game/join-room",
                         body: JSON.stringify({ roomCode, userId }),
-                    });
+                    }); 
+                    
             },
             onDisconnect: () => setConnected(false),     
             onStompError: (frame) => setError(frame.headers["message"]),    
