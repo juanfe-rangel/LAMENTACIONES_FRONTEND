@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@theme {
+  --color-fuego: #FF4400;
+  --color-fuego-dark: #CC2200;
+  --color-fuego-light: #FF7700;
+  
+  --color-oro: #FFCC00;
+  --color-oro-dark: #FF8844;
+  --color-oro-light: #FFEE00;
+  
+  --color-acero: #1C1814;
+  --color-acero-claro: #2A2420;
+  
+  --color-ceniza: #F0DDC8;
+  --color-victoria: #44DD88;
+  --color-sangre: #FF4444;
+
+  --font-display: "Orbitron", sans-serif;
+
+
+  --color-surface: #16130f;
+  --color-surface-dim: #16130f;
+  --color-surface-bright: #3d3834;
+
+  --color-surface-container-lowest: #110e0a;
+  --color-surface-container-low: #1f1b17;
+  --color-surface-container: #231f1b;
+  --color-surface-container-high: #2e2925;
+  --color-surface-container-highest: #39342f;
+
+  --color-on-surface: #eae1da;
+  --color-on-surface-variant: #e7bdb2;
+
+  --color-background: #16130f;
+  --color-on-background: #eae1da;
+
+  --color-primary: #ffb5a1;
+  --color-primary-container: #ff5626;
+  --color-on-primary: #601400;
+  --color-on-primary-container: #541000;
+
+  --color-secondary: #ffecc0;
+  --color-secondary-container: #fecb00;
+  --color-on-secondary: #3d2f00;
+  --color-on-secondary-container: #6e5700;
+
+  --color-tertiary: #48e08b;
+  --color-tertiary-container: #00a65e;
+  --color-on-tertiary: #00391c;
+  --color-on-tertiary-container: #003118;
+
+  --color-error: #ffb4ab;
+  --color-error-container: #93000a;
+  --color-on-error: #690005;
+  --color-on-error-container: #ffdad6;
+
+  --color-outline: #ad887e;
+  --color-outline-variant: #5d4038;
+
+  --color-inverse-surface: #eae1da;
+  --color-inverse-on-surface: #34302b;
+  --color-inverse-primary: #b12d00;
+
+  --font-headline: "Orbitron", sans-serif;
+  --font-body: "Manrope", sans-serif;
+  --font-label: "Space Grotesk", sans-serif;
+}
+
+body {
+  background-color: var(--color-acero);
+  color: var(--color-ceniza);
+  margin: 0;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+
+.kinetic-gradient {
+  background: linear-gradient(45deg, #ffb5a1 0%, #ff5626 100%);
+}
+.anodized-surface {
+  background: linear-gradient(180deg, rgba(57, 52, 47, 0.5) 0%, rgba(35, 31, 27, 0.8) 100%);
+}

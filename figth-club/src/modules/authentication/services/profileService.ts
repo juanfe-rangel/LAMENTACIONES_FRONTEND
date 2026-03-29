@@ -15,7 +15,8 @@ export const DashboardService = {
     },
 
     updateProfile: async (userId: string, newData: Partial<UserProfile>) => {
-        const response = await authApi.patch<UserProfile>(`/user-profile/${userId}`, newData);
-        return response.data;
+        await authApi.patch(`/user-profile/${userId}`, newData);
+        const response = await authApi.get<UserProfile>(`/user-profile/${userId}`);
+        return response.data; 
     }
 };
