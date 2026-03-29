@@ -1,7 +1,10 @@
 import React from 'react';
 
+type props = {
+    userName: string;
+}
 
-export const ProfileButton : React.FC = () =>{
+export const ProfileButton : React.FC<props>  = ({userName}) =>{
     return(
         <div className="flex items-center gap-4 cursor-pointer group">
             <button className="relative">
@@ -10,7 +13,7 @@ export const ProfileButton : React.FC = () =>{
             </button>
             <div className="flex flex-col">
                 <span className="font-headline text-sm font-bold tracking-widest uppercase text-on-surface">
-                    Usuario
+                    {userName}
                 </span>
             </div>
         </div>
