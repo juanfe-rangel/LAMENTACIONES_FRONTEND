@@ -18,14 +18,19 @@ export const PlayerContainer: React.FC<PlayerCardProps> = ({player}) => {
   useEffect(()=>{
     if(!player) return;
     setPlayerGame(player);
-  })
+  }, [player]);
+  
+  const isLocalUser = playerGame?.userId === userDataLocalStorage?.userId;
+  const displayName = isLocalUser
+    ? (userDataLocalStorage?.username ?? playerGame?.userId ?? "EMPTY_SLOT")
+    : (playerGame?.userId ?? "EMPTY_SLOT");
+    
+  const avatarRaw = isLocalUser ? localStorage.getItem('player_avatar') : null;
+  const isValidUrl = avatarRaw?.startsWith('http') || avatarRaw?.startsWith('data:');
+  const avatar = isValidUrl ? avatarRaw : null;
+  const avatarSrc = avatar ?? `https://api.dicebear.com/7.x/pixel-art/svg?seed=${playerGame?.userId ?? 'empty'}`;
 
-
-
-  const name = playerGame ? userDataLocalStorage?.username : "EMPTY_SLOT";
-  let status =  playerGame ? "Ready" : "WAITING...";
-  let avatar;
-  let isEmpty = playerGame ? true : false;
+  const status = playerGame ? "Ready" : "WAITING...";
 
   const isWaiting = status === "WAITING...";
 
@@ -76,7 +81,7 @@ export const PlayerContainer: React.FC<PlayerCardProps> = ({player}) => {
             shadow-2xl overflow-hidden
             flex items-center justify-center
             rounded-[14px] md:rounded-[18px]
-          `}>            {isEmpty || !avatar ? (
+          `}>            {!playerGame ? (
               <div className="w-full h-full flex items-center justify-center">
                 <span
                   className="material-symbols-outlined material-symbols-outlined--display text-outline-variant animate-pulse opacity-20"
@@ -86,11 +91,14 @@ export const PlayerContainer: React.FC<PlayerCardProps> = ({player}) => {
                 </span>
               </div>
             ) : (
-              <img
-                src={avatar}
-                alt={`${name} Avatar`}
-                className="w-full h-full object-cover grayscale contrast-125 mix-blend-screen"
-              />
+            <img
+                src={avatarSrc}
+                alt={`${displayName} Avatar`}
+                onError={(e) => {
+                  e.currentTarget.src = `https://api.dicebear.com/7.x/pixel-art/svg?seed=${playerGame?.userId}`;
+                }}
+             className="w-full h-full object-cover grayscale contrast-125 mix-blend-screen"
+             />
             )}
 
             <div className={`absolute bottom-0 w-full p-3 ${statusBarClass}`}>
@@ -106,7 +114,7 @@ export const PlayerContainer: React.FC<PlayerCardProps> = ({player}) => {
             {isWaiting ? "OPPONENT" : "CHALLENGER"}
           </span>
           <h2 className={`font-orbitron text-2xl sm:text-1xl md:text-4xl lg:text-5xl font-black tracking-tighter  max-w-[90%] mx-auto ${nameColor}`}>    
-              {name}
+              {displayName}
           </h2>
         </div>
       </div>
