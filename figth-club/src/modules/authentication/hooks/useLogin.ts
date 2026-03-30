@@ -38,7 +38,7 @@ export const useLogin = () => {
                     role: data.role
                 }));
 
-                setProfileRoute(`/${data.username}/perfil`);
+                setProfileRoute(`/lobby`);
                 setIsSuccess(true);
             } else {
                 setError("RESPUESTA DEL SERVIDOR INCOMPLETA");

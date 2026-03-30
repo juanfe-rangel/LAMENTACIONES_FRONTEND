@@ -27,7 +27,7 @@ export const useRegister = () => {
                     email: data.email,
                     role: data.role
                 }));
-                setProfileRoute(`/${data.username}/perfil`);
+                setProfileRoute(`/lobby`);
                 setIsSuccess(true);
             }
         } catch (err: any) {

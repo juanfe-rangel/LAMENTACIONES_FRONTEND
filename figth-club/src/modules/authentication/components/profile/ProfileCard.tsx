@@ -106,14 +106,27 @@ export const ProfileCard = ({ profile, onUpdate }: ProfileCardProps) => {
                                     ref={fileRef}
                                     hidden
                                     accept="image/*"
-                                    onChange={(e) => {
+                                    onChange={async (e) => {
                                         const file = e.target.files?.[0];
-                                        if (file) {
-                                            const reader = new FileReader();
-                                            reader.onloadend = () => {
-                                                setFormData({...formData, avatarURL: reader.result as string});
-                                            };
-                                            reader.readAsDataURL(file);
+                                        if (!file || !profile?.userId) return;
+                                        const reader = new FileReader();
+                                        reader.onloadend = () => {
+                                            setFormData(prev => ({ ...prev, avatarURL: reader.result as string }));
+                                        };
+                                        reader.readAsDataURL(file);
+                                        try {
+                                            const formDataUpload = new FormData();
+                                            formDataUpload.append('file', file);
+                                            const token = localStorage.getItem('fight_club_token');
+                                            const res = await fetch(
+                                                `${import.meta.env.VITE_API_URL}/api/v1/users/${profile.userId}/avatar`,
+                                                { method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: formDataUpload }
+                                            );
+                                            const data = await res.json();
+                                            setFormData(prev => ({ ...prev, avatarURL: data.avatarURL }));
+                                            localStorage.setItem('player_avatar', data.avatarURL);
+                                        } catch {
+                                            setSaveError("No se pudo subir la imagen al servidor");
                                         }
                                     }}
                                 />
@@ -121,9 +134,9 @@ export const ProfileCard = ({ profile, onUpdate }: ProfileCardProps) => {
                                     onClick={() => fileRef.current?.click()}
                                     className="w-full bg-black border border-dashed border-white/20 rounded-xl p-3 text-[10px] text-white/40 hover:border-orange-500/40 hover:text-white/60 transition-all uppercase tracking-widest font-bold"
                                 >
-                                    {formData.avatarURL?.startsWith('data:') ? '✓ Imagen cargada' : 'Seleccionar imagen'}
+                                    {formData.avatarURL ? '✓ Imagen cargada' : 'Seleccionar imagen'}
                                 </button>
-                                {formData.avatarURL?.startsWith('data:') && (
+                                {formData.avatarURL && (
                                     <img src={formData.avatarURL} className="w-16 h-16 rounded-xl object-cover mt-2 border border-orange-500/30" />
                                 )}
                             </div>
@@ -142,11 +155,18 @@ export const ProfileCard = ({ profile, onUpdate }: ProfileCardProps) => {
             ) : (
                 <div className="flex flex-col items-center animate-in fade-in duration-500">
                     <div className="w-28 h-28 rounded-2xl border-2 border-orange-500/30 p-1 mb-4 overflow-hidden bg-black">
-                        <img
-                            src={profile?.avatarURL || `https://api.dicebear.com/7.x/pixel-art/svg?seed=${profile?.userId}`}
-                            alt="Avatar"
-                            className="w-full h-full object-cover rounded-xl opacity-80 hover:opacity-100 transition-opacity"
-                        />
+                    <img
+                        src={
+                            profile?.avatarURL?.startsWith('http') || profile?.avatarURL?.startsWith('data:')
+                            ? profile.avatarURL
+                            : `https://api.dicebear.com/7.x/pixel-art/svg?seed=${profile?.userId}`
+                        }
+                        alt="Avatar"
+                        onError={(e) => {
+                            e.currentTarget.src = `https://api.dicebear.com/7.x/pixel-art/svg?seed=${profile?.userId}`;
+                        }}
+                        className="w-full h-full object-cover rounded-xl opacity-80 hover:opacity-100 transition-opacity"
+                    />
                     </div>
 
                     <h2 className="text-2xl font-black tracking-tighter uppercase italic text-white drop-shadow-md">

@@ -24,7 +24,7 @@ export const SocialAuth = () => {
           email: data.email,
           role: data.role
         }));
-        navigate(`/${data.username}/perfil`);
+        navigate(`/lobby`);
       }
     } catch (err: any) {
       setError("ERROR AL AUTENTICAR CON GOOGLE");

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User } from 'lucide-react';
 import authApi from '../../config/axios';
-import { ErrorToast } from '../ui/ErrorToast'; // ← nuevo
+import { ErrorToast } from '../ui/ErrorToast';
 
 export const GuestForm = () => {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ export const GuestForm = () => {
         role: 'GUEST'
       }));
 
-      navigate(`/${data.username}/perfil`);
+      navigate(`/lobby`);
     } catch (err: any) {
       const msg = err.response?.data?.message || "ERROR AL CREAR INVITADO";
       setError(msg.toUpperCase());
