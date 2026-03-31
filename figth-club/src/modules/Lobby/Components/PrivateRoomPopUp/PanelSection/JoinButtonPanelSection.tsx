@@ -1,16 +1,27 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 
 type prop = {
-    fullRoom : boolean
+    fullRoom : boolean,
+    roomCode : string
 }
 
 
-export const JoinButtonPanelSection :React.FC<prop> = ({fullRoom}) =>{
-    const Aviable = fullRoom ? "!!!" : "Lleno"
-    const Cursor_Block = fullRoom ? "pointer" : "not-allowed";
+export const JoinButtonPanelSection :React.FC<prop> = ({fullRoom,roomCode}) =>{
+    const navigate = useNavigate();
+
+    const Aviable = fullRoom ?  "Lleno" : "!!!"
+    const Cursor_Block = fullRoom ?   "not-allowed" :"pointer";
+    const playerType = "PLAYER"
+
+    const JoinWaiting = ()=>{
+        navigate(`/waiting-room?roomCode=${roomCode}&playerType=${playerType}`); 
+    }
+
 
     return(
-        <button  className={`
+        <button onClick={JoinWaiting} className={`
             col-span-2 
             group 
             relative 

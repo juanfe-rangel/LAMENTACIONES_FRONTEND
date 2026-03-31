@@ -8,10 +8,11 @@ import type { Player } from '../../Types/PlayerType';
 
 type props={
     roomRequest : Room;
+    leave : () => void
 }
 
 
-export const WaitingRoom: React.FC<props> = ({roomRequest}) => {
+export const WaitingRoom: React.FC<props> = ({roomRequest,leave}) => {
     const[players,setPLayers] = useState<Player[]|null>(null)
     const[roomR,setRoomR] = useState<Room>();
 
@@ -30,7 +31,7 @@ export const WaitingRoom: React.FC<props> = ({roomRequest}) => {
     return (
         roomR && 
         <div className="bg-background text-on-background font-body selection:bg-primary selection:text-on-primary h-screen flex flex-col overflow-hidden">
-            <WaitingRoomHeader spectatorsNumber={roomR.currentSpectators}/>
+            <WaitingRoomHeader spectatorsNumber={roomR.currentSpectators} leave={leave}/>
             <main className="flex-1 flex flex-col relative mt-16 min-h-0">
 
                 <div className="absolute inset-0 z-20 flex justify-center pointer-events-none hidden md:flex">
@@ -59,7 +60,7 @@ export const WaitingRoom: React.FC<props> = ({roomRequest}) => {
                 </div>
             </main>
             <PreFooterWaitingBar roomCode={roomR.roomCode} />
-            <BottonWaitingBar />
+            <BottonWaitingBar roomCode={roomR.roomCode} />
         </div>
     );
 };

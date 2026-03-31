@@ -11,3 +11,5 @@ export type Room = {
     currentSpectators: number;
     players : Player[];
 }
+
+

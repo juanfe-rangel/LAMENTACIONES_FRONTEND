@@ -31,7 +31,7 @@ function App() {
               <LobbyPage />
             </PrivateRoute>
           } />
-          <Route path="/waiting-room/:roomCode" element={
+          <Route path="/waiting-room" element={
             <PrivateRoute>
               <WaitingRoomPage />
             </PrivateRoute>

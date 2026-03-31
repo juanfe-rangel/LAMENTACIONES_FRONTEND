@@ -1,21 +1,35 @@
 import React, { useState, type RefObject } from "react";
+import { useRequestRoomState } from "../../Hooks/useRequestRoomState";
+import type { Room } from "../../Types/RoomTypes";
+import { error } from "three";
 
 type props = {
     findMatch? : boolean;
     setBottomPanel: (boolean:boolean) =>void;
     formRef : RefObject<HTMLFormElement | null>;
+    setRoom : (room : Room | null) => void;
 }
 
-export const InputSectionPopUp :React.FC<props> = ({findMatch, setBottomPanel,formRef}) =>{
-    const MATCH_FOUND_EMOJI =   findMatch === undefined ? "search" : (findMatch ? "verified" : "cancel");
-    const MATCH_FOUND_MESSAGE =  findMatch === undefined ? "Buscar" : (findMatch ? "Encontrada" : "No existe");
+export const InputSectionPopUp :React.FC<props> = ({findMatch, setBottomPanel,formRef,setRoom}) =>{
     const [roomCode, setRoomCode] = useState("");
+    const  {room, error} = useRequestRoomState({code:roomCode})
+    const MATCH_FOUND_EMOJI =   findMatch === undefined ? "search" : (!error ? "verified" : "cancel");
+    const MATCH_FOUND_MESSAGE =  findMatch === undefined ? "Buscar" : (!error ? "Encontrada" : "No existe");
 
+    const asignarRoom =  (room:Room | null)=>{
+        setRoom(room);
+    }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+       e.preventDefault();
+       if (room) {           
         setBottomPanel(true);
-      };
+        asignarRoom(room);
+    } else {
+        setBottomPanel(false); 
+    }
+    
+    };
 
     return(
         <div className="space-y-4 ">

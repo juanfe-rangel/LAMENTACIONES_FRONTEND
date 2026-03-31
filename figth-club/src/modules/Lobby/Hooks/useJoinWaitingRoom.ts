@@ -2,17 +2,27 @@ import { useEffect, useState,useRef } from "react"
 import type { Room } from "../Types/RoomTypes"
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
+import { lobbyApi } from "../Config/axiosLobby";
 
 type props = {
     roomCode: string;
     userId: string;
+    playerType: string;
 };
 
-export const useJoinWaitingRoomg = ({roomCode,userId}:props)=>{
+export const useJoinWaitingRoomg = ({roomCode,userId,playerType}:props)=>{
     const [room,setRoom] = useState<Room | null>(null);
     const [connected,setConnected] = useState(false);
     const [error,setError] = useState<string | null>(null)
     const clientRef = useRef<Client | null>(null);
+
+    const leave = () => {
+        if (clientRef.current) {
+            clientRef.current.deactivate();
+            setConnected(false);
+        }
+    };
+
 
     useEffect(()=>{
         const client = new Client({
@@ -25,11 +35,12 @@ export const useJoinWaitingRoomg = ({roomCode,userId}:props)=>{
 
                     client.publish({
                         destination: "/game/join-room",
-                        body: JSON.stringify({ roomCode, userId }),
+                        body: JSON.stringify({ roomCode, userId,playerType }),
                     }); 
                     
             },
-            onDisconnect: () => setConnected(false),     
+            onDisconnect: () => {setConnected(false)
+            },     
             onStompError: (frame) => setError(frame.headers["message"]),    
         });
 
@@ -42,7 +53,7 @@ export const useJoinWaitingRoomg = ({roomCode,userId}:props)=>{
 
     },[userId,roomCode]);
 
-    return { room, connected,error };
+    return { room, connected,error,leave  };
 
 
 }

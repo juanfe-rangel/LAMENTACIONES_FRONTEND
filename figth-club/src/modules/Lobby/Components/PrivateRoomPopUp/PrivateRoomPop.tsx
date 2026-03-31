@@ -4,6 +4,7 @@ import { InputSectionPopUp } from "./InputSectionPop";
 import { SearchResultPopUp } from "./SearchResult";
 import { SectionPanelPopUp } from "./PanelSection/SectionPanel";
 import { FooterPopUp } from "./FooterPopUp";
+import type { Room } from "../../Types/RoomTypes";
 
 type Props = {
     onClose: () => void;
@@ -12,6 +13,7 @@ type Props = {
 export const PrivateRoomPopUp :React.FC<Props> = ({onClose}) =>{
     const [show, setShow] = useState(false);
     const [bottonPanel,setBottonPanel] = useState<boolean | undefined>(undefined);
+    const [room,setRoom ] = useState<Room | null>(null);
     const formRef = useRef<HTMLFormElement>(null);
     
     useEffect(() => {
@@ -47,12 +49,12 @@ export const PrivateRoomPopUp :React.FC<Props> = ({onClose}) =>{
                         <h2 className="font-display text-3xl font-black tracking-tighter text-orange-500 uppercase">Join Private</h2>
                         <div className="h-1 w-12 bg-orange-500"></div>
                     </div>
-                    <InputSectionPopUp findMatch={bottonPanel}  setBottomPanel={setBottonPanel}  formRef={formRef}/>
+                    <InputSectionPopUp findMatch={bottonPanel}  setBottomPanel={setBottonPanel}  formRef={formRef} setRoom={setRoom}/>
                     {
-                        bottonPanel && (
+                        bottonPanel && room &&  (
                             <>
-                                <SearchResultPopUp players={2} spectators={4} status="Jugando"/>
-                                <SectionPanelPopUp full={true} formRef={formRef} />
+                                <SearchResultPopUp players={room.currentPlayers} spectators={room.currentSpectators} status={room.roomState}/>
+                                <SectionPanelPopUp full={room.maxPlayers-room.currentPlayers===0} formRef={formRef} roomCode={room.roomCode} fullSpectators={room.maxSpectators-room.currentSpectators===0} />
                             </>
                         )
                     }
