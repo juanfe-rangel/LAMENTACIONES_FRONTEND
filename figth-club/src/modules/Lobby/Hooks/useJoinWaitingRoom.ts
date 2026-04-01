@@ -15,6 +15,8 @@ export const useJoinWaitingRoomg = ({roomCode,userId,playerType}:props)=>{
     const [connected,setConnected] = useState(false);
     const [error,setError] = useState<string | null>(null)
     const clientRef = useRef<Client | null>(null);
+    const socketUrl = import.meta.env.VITE_SOCKET_URL;
+
 
     const leave = () => {
         if (clientRef.current) {
@@ -25,8 +27,9 @@ export const useJoinWaitingRoomg = ({roomCode,userId,playerType}:props)=>{
 
 
     useEffect(()=>{
+  
         const client = new Client({
-            webSocketFactory : ()=> new SockJS("http://localhost:8080/lobbyFight"),
+            webSocketFactory : ()=> new SockJS(socketUrl),
             onConnect: () =>{setConnected(true)
                     client.subscribe(`/room/${roomCode}`,(message)=>{
                         const roomState : Room = JSON.parse(message.body);

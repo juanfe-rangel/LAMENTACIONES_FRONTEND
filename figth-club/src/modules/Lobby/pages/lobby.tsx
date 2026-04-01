@@ -13,6 +13,7 @@ export const LobbyPage : React.FC = () =>{
     const [userCharacters,setUserCharacters] = useState<UserCharacter[] | null>(null);
     
     useEffect(() => {
+
       const userData = getUserData(); 
       if (userData) {
         setUserName(userData.username);
