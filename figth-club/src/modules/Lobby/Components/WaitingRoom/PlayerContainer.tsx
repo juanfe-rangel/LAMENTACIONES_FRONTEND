@@ -15,6 +15,7 @@ type PlayerCardProps = {
 export const PlayerContainer: React.FC<PlayerCardProps> = ({player}) => {
   const [playerGame,setPlayerGame] = useState<Player|null>(null)
   const [remoteUsername, setRemoteUsername] = useState<string | null>(null);
+  const [remoteAvatar, setRemoteAvatar] = useState<string | null>(null);
 
   useEffect(()=>{
     if(!player) return;
@@ -27,6 +28,7 @@ export const PlayerContainer: React.FC<PlayerCardProps> = ({player}) => {
   useEffect(() => {
     if (!playerGame?.userId || isLocalUser) {
       setRemoteUsername(null);
+      setRemoteAvatar(null);
       return;
     }
     const fromRoom = playerGame.username?.trim();
@@ -38,7 +40,10 @@ export const PlayerContainer: React.FC<PlayerCardProps> = ({player}) => {
     authApi
       .get<UserProfile>(`/user-profile/${playerGame.userId}`)
       .then((res) => {
-        if (!cancelled && res.data?.username) setRemoteUsername(res.data.username);
+        if (!cancelled) {
+          if (res.data?.username) setRemoteUsername(res.data.username);
+          if (res.data?.avatarURL) setRemoteAvatar(res.data.avatarURL);
+        }
       })
       .catch(() => {});
     return () => {
@@ -53,7 +58,9 @@ export const PlayerContainer: React.FC<PlayerCardProps> = ({player}) => {
   const avatarRaw = isLocalUser ? localStorage.getItem('player_avatar') : null;
   const isValidUrl = avatarRaw?.startsWith('http') || avatarRaw?.startsWith('data:');
   const avatar = isValidUrl ? avatarRaw : null;
-  const avatarSrc = avatar ?? `https://api.dicebear.com/7.x/pixel-art/svg?seed=${playerGame?.userId ?? 'empty'}`;
+  const avatarSrc = isLocalUser
+   ? (avatar ?? `https://api.dicebear.com/7.x/pixel-art/svg?seed=${playerGame?.userId ?? 'empty'}`)
+   : (remoteAvatar ?? `https://api.dicebear.com/7.x/pixel-art/svg?seed=${playerGame?.userId ?? 'empty'}`);
 
   const status = playerGame ? "Ready" : "WAITING...";
 
