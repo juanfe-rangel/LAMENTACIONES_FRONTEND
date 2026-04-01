@@ -53,7 +53,25 @@ export const useJoinWaitingRoomg = ({roomCode,userId,playerType}:props)=>{
             client.deactivate();
         };
 
-    },[userId,roomCode]);
+    },[userId,roomCode,playerType]);
+
+    useEffect(() => {
+        let cancelled = false;
+        const tick = async () => {
+            try {
+                const fresh = await lobbyApi.getRoomState(roomCode);
+                if (!cancelled) setRoom(fresh);
+            } catch {
+                /* el WS sigue siendo la fuente principal; ignorar fallos puntuales */
+            }
+        };
+        void tick();
+        const id = window.setInterval(tick, 2500);
+        return () => {
+            cancelled = true;
+            window.clearInterval(id);
+        };
+    }, [roomCode]);
 
     return { room, connected,error,leave  };
 

@@ -3,7 +3,6 @@ import type { Player } from "../../Types/PlayerType";
 import { getUserData } from "../../Types/localUserData";
 
 type PlayerCardProps = {
-  key : number;
   player? : Player;
 };
 
