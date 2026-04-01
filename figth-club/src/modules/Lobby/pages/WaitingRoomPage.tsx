@@ -1,4 +1,5 @@
-import { Navigate, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { WaitingRoom } from "../Components/WaitingRoom/WaitingRoom";
 import { useJoinWaitingRoomg } from "../Hooks/useJoinWaitingRoom";
 import { getUserData } from "../Types/localUserData";
@@ -33,11 +34,21 @@ const WaitingRoomWithConnection: React.FC<WaitingRoomWithConnectionProps> = ({
   userId,
   playerType,
 }) => {
+  const navigate = useNavigate();
   const { room, connected, error, leave } = useJoinWaitingRoomg({
     roomCode,
     userId,
     playerType,
   });
+
+  useEffect(() => {
+    if (!room) return;
+    const hostStillInRoom = room.players.some((p) => p.userId === room.hostId);
+    if (userId !== room.hostId && !hostStillInRoom) {
+      leave();
+      navigate("/lobby", { replace: true });
+    }
+  }, [room, leave, navigate, userId]);
 
   if (error) return <div>Error: {error}</div>;
   if (!connected || !room) return <div>Conectando...</div>;
