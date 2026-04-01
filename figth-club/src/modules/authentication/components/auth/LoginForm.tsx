@@ -3,16 +3,17 @@ import { useState } from 'react'
 import { SuccessCard } from './SuccessCard'
 import { useLogin } from '../../hooks/useLogin'
 import { useNavigate } from 'react-router-dom'
+import { ErrorToast } from '../ui/ErrorToast'
 
 export const LoginForm = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false)
-  const { email, setEmail, password, setPassword, isLoading, isSuccess, error, handleSubmit } = useLogin()
+  const { email, setEmail, password, setPassword, isLoading, isSuccess, profileRoute, error, handleSubmit } = useLogin()
 
   if (isSuccess) {
     return (
       <SuccessCard 
-        onConfirm={() => navigate('/profile')} 
+        onConfirm={() => navigate(profileRoute)} 
       />
     );
   }
@@ -21,7 +22,7 @@ export const LoginForm = () => {
     <form className="space-y-8" onSubmit={handleSubmit}>
       <Header ArenaLabel="Acceso al Arena" />
       
-      {error && <ErrorBadge message={error} />}
+       <ErrorToast message={error} /> 
 
       <InputField 
         label="Correo Electrónico" 
@@ -65,12 +66,6 @@ const Header = ({ ArenaLabel }: { ArenaLabel: string }) => (
   <div className="relative py-2 text-center">
     <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10" /></div>
     <span className="relative bg-[#12100e] px-4 text-[12px] uppercase text-white/60 tracking-[0.4em] font-black">{ArenaLabel}</span>
-  </div>
-)
-
-const ErrorBadge = ({ message }: { message: string }) => (
-  <div className="bg-[#E25127]/10 border border-[#E25127]/20 text-[#E25127] text-[10px] py-4 px-4 rounded-lg uppercase tracking-[0.2em] font-black flex items-center gap-3 animate-shake">
-    <span>⚠️</span> {message}
   </div>
 )
 

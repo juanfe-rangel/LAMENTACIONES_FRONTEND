@@ -47,7 +47,9 @@ export const PlayerDashboard = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('user_data');
-        localStorage.removeItem('token'); 
+        localStorage.removeItem('fight_club_token');   
+        localStorage.removeItem('fight_club_refresh');
+        localStorage.removeItem('fight_club_userId');
         navigate('/login');
     };
 
@@ -98,7 +100,14 @@ export const PlayerDashboard = () => {
                                 </span>
                             </div>
                         </div>
-
+                        {/* Botón Volver al Lobby */}
+                        <button
+                            onClick={() => navigate('/lobby')}
+                            className="group flex flex-col items-center justify-center gap-1 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/30 p-4 rounded-2xl transition-all duration-300"
+                        >
+                            <span className="text-white/60 group-hover:text-white text-lg">←</span>
+                            <span className="text-[8px] font-black uppercase tracking-widest text-white/40 group-hover:text-white/60">Lobby</span>
+                        </button>
                         {/* Botón Cerrar Sesión */}
                         <button 
                             onClick={handleLogout}
