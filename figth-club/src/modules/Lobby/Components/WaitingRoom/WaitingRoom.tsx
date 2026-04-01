@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react';
+import React from 'react';
 import { WaitingRoomHeader } from './WaitingRoomHeader';
 import { PlayerContainer } from './PlayerContainer';
 import { BottonWaitingBar } from './BottomBar';
@@ -13,25 +13,12 @@ type props={
 
 
 export const WaitingRoom: React.FC<props> = ({roomRequest,leave}) => {
-    const[players,setPLayers] = useState<Player[]|null>(null)
-    const[roomR,setRoomR] = useState<Room>();
-
-   
-    useEffect(() => {
-        if (!roomRequest) return;
-        setRoomR(roomRequest);
-        setPLayers(roomRequest.players); 
-        
-    }, [roomRequest]);
-
-    const playerList = players?.filter(p => p.playerType === "PLAYER") ?? [];
-
-   
+    const playerList: Player[] =
+        roomRequest.players?.filter((p) => p.playerType === "PLAYER") ?? [];
 
     return (
-        roomR && 
         <div className="bg-background text-on-background font-body selection:bg-primary selection:text-on-primary h-screen flex flex-col overflow-hidden">
-            <WaitingRoomHeader spectatorsNumber={roomR.currentSpectators} leave={leave}/>
+            <WaitingRoomHeader spectatorsNumber={roomRequest.currentSpectators} leave={leave}/>
             <main className="flex-1 flex flex-col relative mt-16 min-h-0">
 
                 <div className="absolute inset-0 z-20 flex justify-center pointer-events-none hidden md:flex">
@@ -47,20 +34,20 @@ export const WaitingRoom: React.FC<props> = ({roomRequest,leave}) => {
        
 
                     {
-                        playerList.map((p, i) => (
-                        <PlayerContainer key={i} player={p} />
+                        playerList.map((p) => (
+                        <PlayerContainer key={p.userId} player={p} />
                         ))
                     }
 
                     {
-                        playerList.length === 1 && <PlayerContainer key={-1} />
+                        playerList.length === 1 && <PlayerContainer key="empty-slot" />
                     }
 
     
                 </div>
             </main>
-            <PreFooterWaitingBar roomCode={roomR.roomCode} />
-            <BottonWaitingBar roomCode={roomR.roomCode} />
+            <PreFooterWaitingBar roomCode={roomRequest.roomCode} />
+            <BottonWaitingBar roomCode={roomRequest.roomCode} />
         </div>
     );
 };
