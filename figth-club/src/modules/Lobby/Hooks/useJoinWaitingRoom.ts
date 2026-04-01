@@ -14,8 +14,16 @@ export const useJoinWaitingRoomg = ({roomCode,userId,playerType}:props)=>{
     const [room,setRoom] = useState<Room | null>(null);
     const [connected,setConnected] = useState(false);
     const [error,setError] = useState<string | null>(null)
+    const [roomDisbanded, setRoomDisbanded] = useState(false);
+    const hasSeenRoomRef = useRef(false);
+    const pollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const clientRef = useRef<Client | null>(null);
     const socketUrl = `${import.meta.env.VITE_API_LOBBY_URL}/lobbyFight`;
+
+    useEffect(() => {
+        hasSeenRoomRef.current = false;
+        setRoomDisbanded(false);
+    }, [roomCode]);
 
     const leave = useCallback(() => {
         if (clientRef.current) {
@@ -32,6 +40,7 @@ export const useJoinWaitingRoomg = ({roomCode,userId,playerType}:props)=>{
             onConnect: () =>{setConnected(true)
                     client.subscribe(`/room/${roomCode}`,(message)=>{
                         const roomState : Room = JSON.parse(message.body);
+                        hasSeenRoomRef.current = true;
                         setRoom(roomState);
                     });
 
@@ -57,23 +66,35 @@ export const useJoinWaitingRoomg = ({roomCode,userId,playerType}:props)=>{
 
     useEffect(() => {
         let cancelled = false;
+        const stopPolling = () => {
+            if (pollIntervalRef.current != null) {
+                window.clearInterval(pollIntervalRef.current);
+                pollIntervalRef.current = null;
+            }
+        };
         const tick = async () => {
             try {
                 const fresh = await lobbyApi.getRoomState(roomCode);
-                if (!cancelled) setRoom(fresh);
+                if (!cancelled) {
+                    hasSeenRoomRef.current = true;
+                    setRoom(fresh);
+                }
             } catch {
-                /* el WS sigue siendo la fuente principal; ignorar fallos puntuales */
+                if (!cancelled && hasSeenRoomRef.current) {
+                    stopPolling();
+                    setRoomDisbanded(true);
+                }
             }
         };
         void tick();
-        const id = window.setInterval(tick, 2500);
+        pollIntervalRef.current = window.setInterval(tick, 2500);
         return () => {
             cancelled = true;
-            window.clearInterval(id);
+            stopPolling();
         };
     }, [roomCode]);
 
-    return { room, connected,error,leave  };
+    return { room, connected, error, leave, roomDisbanded };
 
 
 }
