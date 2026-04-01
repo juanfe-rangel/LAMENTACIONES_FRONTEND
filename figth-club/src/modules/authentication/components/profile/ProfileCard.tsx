@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { MapPin, Settings, Save, X, Camera } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { MapPin, Settings, Save, X } from 'lucide-react';
 import type { UserProfile } from '../../types/dashboard.types';
 
 interface ProfileCardProps {
