@@ -1,4 +1,4 @@
-import { useEffect, useState,useRef } from "react"
+import { useCallback, useEffect, useState, useRef } from "react"
 import type { Room } from "../Types/RoomTypes"
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
@@ -17,12 +17,12 @@ export const useJoinWaitingRoomg = ({roomCode,userId,playerType}:props)=>{
     const clientRef = useRef<Client | null>(null);
     const socketUrl = `${import.meta.env.VITE_API_LOBBY_URL}/lobbyFight`;
 
-    const leave = () => {
+    const leave = useCallback(() => {
         if (clientRef.current) {
             clientRef.current.deactivate();
             setConnected(false);
         }
-    };
+    }, []);
 
 
     useEffect(()=>{
