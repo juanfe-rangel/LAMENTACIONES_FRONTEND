@@ -15,8 +15,7 @@ export const useJoinWaitingRoomg = ({roomCode,userId,playerType}:props)=>{
     const [connected,setConnected] = useState(false);
     const [error,setError] = useState<string | null>(null)
     const clientRef = useRef<Client | null>(null);
-    const socketUrl = import.meta.env.VITE_SOCKET_URL;
-
+    const socketUrl = `${import.meta.env.VITE_API_LOBBY_URL}/lobbyFight`;
 
     const leave = () => {
         if (clientRef.current) {
