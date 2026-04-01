@@ -1,31 +1,46 @@
-import {  useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 import { WaitingRoom } from "../Components/WaitingRoom/WaitingRoom";
 import { useJoinWaitingRoomg } from "../Hooks/useJoinWaitingRoom";
-import { userDataRaw } from "../Types/localUserData";
-
-
+import { getUserData } from "../Types/localUserData";
 
 export const WaitingRoomPage: React.FC = () => {
-    const [searchParams] = useSearchParams();
-    const roomCode = searchParams.get("roomCode");
-    const playerType = searchParams.get("playerType");
+  const [searchParams] = useSearchParams();
+  const roomCode = searchParams.get("roomCode");
+  const playerType = searchParams.get("playerType");
+  const userId = getUserData()?.userId ?? null;
 
-    const navigate = useNavigate();
+  if (!userId || !roomCode || !playerType) {
+    return <Navigate to="/login" replace />;
+  }
 
-    
-    const userId = userDataRaw ? JSON.parse(userDataRaw).userId : null;
+  return (
+    <WaitingRoomWithConnection
+      roomCode={roomCode}
+      userId={userId}
+      playerType={playerType}
+    />
+  );
+};
 
-    
-    const { room, connected, error, leave } = useJoinWaitingRoomg({ 
-        roomCode: roomCode!, 
-        userId,
-        playerType : playerType!
-    });
+type WaitingRoomWithConnectionProps = {
+  roomCode: string;
+  userId: string;
+  playerType: string;
+};
 
+const WaitingRoomWithConnection: React.FC<WaitingRoomWithConnectionProps> = ({
+  roomCode,
+  userId,
+  playerType,
+}) => {
+  const { room, connected, error, leave } = useJoinWaitingRoomg({
+    roomCode,
+    userId,
+    playerType,
+  });
 
-    if (!userId || !roomCode) { navigate("/"); return null; }
-    if (error) return <div>Error: {error}</div>;
-    if (!connected || !room) return <div>Conectando...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!connected || !room) return <div>Conectando...</div>;
 
-    return <WaitingRoom roomRequest={room} leave={leave} />;
+  return <WaitingRoom roomRequest={room} leave={leave} />;
 };

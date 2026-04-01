@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import type { Player } from "../../Types/PlayerType";
-import { userDataLocalStorage } from "../../Types/localUserData";
+import { getUserData } from "../../Types/localUserData";
 
 type PlayerCardProps = {
   key : number;
@@ -19,10 +19,11 @@ export const PlayerContainer: React.FC<PlayerCardProps> = ({player}) => {
     if(!player) return;
     setPlayerGame(player);
   }, [player]);
-  
-  const isLocalUser = playerGame?.userId === userDataLocalStorage?.userId;
+
+  const currentUser = getUserData();
+  const isLocalUser = playerGame?.userId === currentUser?.userId;
   const displayName = isLocalUser
-    ? (userDataLocalStorage?.username ?? playerGame?.userId ?? "EMPTY_SLOT")
+    ? (currentUser?.username ?? playerGame?.userId ?? "EMPTY_SLOT")
     : (playerGame?.userId ?? "EMPTY_SLOT");
     
   const avatarRaw = isLocalUser ? localStorage.getItem('player_avatar') : null;

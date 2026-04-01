@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { lobbyApi } from "../Config/axiosLobby";
-import  { userDataLocalStorage } from "../Types/localUserData";
+import { getUserData } from "../Types/localUserData";
 import { useNavigate } from "react-router-dom";
 
 
@@ -12,10 +12,11 @@ export const useCreationPRoom = () => {
     const playerType = "PLAYER"
 
     const createRoom = async () => {
-        if (!userDataLocalStorage) { setError("No hay usuario"); return; }
+        const user = getUserData();
+        if (!user) { setError("No hay usuario"); return; }
         setLoading(true);
         try {
-            const res = await lobbyApi.createLobby(userDataLocalStorage.userId);
+            const res = await lobbyApi.createLobby(user.userId);
             navigate(`/waiting-room?roomCode=${res.roomCode}`);
             navigate(`/waiting-room?roomCode=${res.roomCode}&playerType=${playerType}`); 
 
