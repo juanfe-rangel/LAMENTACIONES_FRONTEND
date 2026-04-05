@@ -27,7 +27,12 @@ export const RegisterForm = () => {
         e.preventDefault();
         
         if (form.password !== form.confirmPassword) {
-            alert("Las contraseñas no coinciden, combatiente.");
+            setError("Las contraseñas no coinciden, combatiente.");
+            return;
+        }
+
+        if (form.password.length < 6) {
+            setError("La contraseña debe tener al menos 6 caracteres.");
             return;
         }
 
